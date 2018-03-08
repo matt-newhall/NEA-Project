@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Football Bracketing NEA Project">
+        <meta name="author" content="Matthew Newhall">
+
+        <title>Football Bracketing NEA Project</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+        <!-- Main CSS -->
+        <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+        {% include 'nav.html' %}
+
+        <div class="container">
+            <br>
+
+            {% block body %}
+            {% if session['strAccountType'] == "U" %}
+                <table>
+                    <thead>
+                        <th>Team Name</th>
+                        <th>Coach Name</th>
+                    </thead>
+                    
+                    <tbody>
+                        {% for lstTeam in lstTeams %}
+                            <tr>
+                                <td>{{ lstTeam[0] }}</td>
+                                <td>{{ lstTeam[1] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <br>
+                <form action="/leaveTeam" method="POST">
+                    <div class="col-sm-8 col-xs-12 formSpacing">
+                        <input name="txtTeamName" type="text" placeholder="Team To Leave" required/>
+                    </div>
+
+                    <input type="submit" value="Submit"/>
+                </form>
+            {% endif %}
+            {% endblock %}
+        </div>
+        
+    </body>
+    
+</html>

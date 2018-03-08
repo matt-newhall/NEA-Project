@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Football Bracketing NEA Project">
+        <meta name="author" content="Matthew Newhall">
+
+        <title>Football Bracketing NEA Project</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+        <!-- Main CSS -->
+        <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+        {% include 'nav.html' %}
+
+        <!-- Page Content -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1 class="mt-5">Create League</h1>
+                    <p class="lead"></p>
+                </div>
+            </div>
+
+            <form action="/createLeague" method="POST">
+                <h4>League Settings</h4>
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="txtLeagueName" type="text" placeholder="League Name" required/>
+                </div>
+
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="numTeamLimit" type="text" placeholder="Team Limit" required/>
+                </div>
+
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <select name="txtFormat">
+                        <option value=""></option>
+                        <option value="E">Elimination</option>
+                        <option value="R">Round Robin</option>
+                    </select>
+                </div>
+
+                <h4>Ruleset</h4>
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="numMatchLength" type="text" placeholder="Match Length" required/>
+                </div>
+
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="ckbExtraTime" type="checkbox" placeholder="Extra Time" value="ckbExtraTime" required/>
+                </div>
+
+                <div class="col-sm-8 col-xs-12 formSpacing" id="divExtraTime">
+                    <input name="numExtraTime" type="number" placeholder="Extra Time Length" required/>
+                </div>
+
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="ckbPenalties" type="checkbox" placeholder="Penalties" value="ckbPenalties" required/>
+                </div>
+
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="numPlayersTeam" type="number" placeholder="Players Per Team" required/>
+                </div>
+
+                <input type="submit" value="Submit"/>
+            </form>
+        </div>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="{{ url_for('static',filename='jquery/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+        <script>
+            $("input[name='numExtraTime']").hide();
+            $("#divExtraTime").css("margin-bottom", "0px");
+
+            $("input[name='ckbExtraTime']").on("click", function(){
+                if ($(this).prop("checked") ) {
+                    $("input[name='numExtraTime']").fadeIn();
+                    $("#divExtraTime").css("margin-bottom", "20px");
+                }
+                else {
+                    $("input[name='numExtraTime']").hide();
+                    $("#divExtraTime").css("margin-bottom", "0px");
+                }
+            });
+        </script>
+
+    </head>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Football Bracketing NEA Project">
+        <meta name="author" content="Matthew Newhall">
+
+        <title>Football Bracketing NEA Project</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+        <!-- Main CSS -->
+        <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+        {% include 'nav.html' %}
+
+        <!-- Page Content -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1 class="mt-5">Create Team</h1>
+                    <p class="lead"></p>
+                </div>
+            </div>
+
+            <form action="/createTeam" method="POST">
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="txtTeamName" type="text" placeholder="Team Name" required/>
+                </div>
+
+                {% block coach %}
+                {% if session['strAccountType'] == "A" %}
+                    <div class="col-sm-8 col-xs-12 formSpacing">
+                        <input name="txtCoachName" type="text" placeholder="Coach Name" required/>
+                    </div>
+                {% endif %}
+                {% endblock %}
+
+                <input type="submit" value="Submit"/>
+            </form>
+
+
+        </div>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="{{ url_for('static',filename='jquery/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    </head>
+
+</html>

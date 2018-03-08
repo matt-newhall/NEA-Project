@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Football Bracketing NEA Project">
+        <meta name="author" content="Matthew Newhall">
+
+        <title>Football Bracketing NEA Project</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+        <!-- Main CSS -->
+        <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+        {% include 'nav.html' %}
+
+        <div class="container">
+            {% block body %}
+            {% if session['userLoggedIn'] %}
+                <h4>You're logged in already!</h4>
+                <a href="{{ url_for('home') }}">Please click here to go to your account.</a>
+            {% else %}
+
+                <br>
+
+                <h2>Login</h2>
+                <form action="/loginUser" method="POST">
+                    <div class="col-sm-8 col-xs-12 formSpacing">
+                        <input name="txtUsername" type="text" placeholder="Username" required/>
+                    </div>
+
+                    <div class="col-sm-8 col-xs-12 formSpacing">
+                        <input name="txtPassword" type="password" placeholder="Password" required/>
+                    </div>
+                    
+                    <input type="submit" value="Log in">
+                </form>
+            
+              <br><br>
+            
+                <h2>Create Account</h2>
+                <form action="/createAccount" method="POST">
+                    <div class="col-sm-8 col-xs-12 formSpacing">
+                        <input name="txtUsername" type="text" placeholder="Username" required/>
+                    </div>
+
+                    <div class="col-sm-8 col-xs-12 formSpacing">
+                        <input name="txtPassword" type="password" placeholder="Password" required/>
+                    </div>
+
+                    <div class="col-sm-8 col-xs-12 formSpacing">
+                        <input name="txtPasswordCheck" type="password" placeholder="Confirm Password" required/>
+                    </div>
+
+                    <div class="col-sm-8 col-xs-12 formSpacing">
+                        <input name="emailAddress" type="email" placeholder="Email" required/>
+                    </div>
+
+                    <div class="col-sm-8 col-xs-12 formSpacing">
+                        <select name="txtAccount">
+                            <option value=""></option>
+                            <option value="U">User</option>
+                            <option value="C">Coach</option>
+                            <option value="R">Referee</option>
+                        </select>
+                    </div>
+
+                    <input type="submit" value="Submit"/>
+                </form>
+            {% endif %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

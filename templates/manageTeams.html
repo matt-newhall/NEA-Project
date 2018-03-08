@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Football Bracketing NEA Project">
+        <meta name="author" content="Matthew Newhall">
+
+        <title>Football Bracketing NEA Project</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+        <!-- Main CSS -->
+        <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+        {% include 'nav.html' %}
+
+        <div class="container">
+            {% block body %}
+            {% if session['strAccountType'] == "C" %}
+                <div class="tab" id="tabMain">
+                    {% for dictKey in dictTeams %}
+                        <button class="tabTitle" onclick="openTab(event, '{{ dictKey }}')">{{ dictKey }}</button>
+                    {% endfor %}
+                </div>
+                
+                {% for dictKey in dictTeams %}
+                    <div id="{{ dictKey }}" class="tabContent">
+                        {% if ((dictTeams[dictKey])|length) == 0 %}
+                            <h4>Empty Team</h4>
+                        {% else %}
+                            <table>
+                                <thead>
+                                    <th>Player Names</th>
+                                </thead>
+
+                                <tbody>
+                                    {% for intLoopCount in range(0,((dictTeams[dictKey])|length)) %}
+                                        <tr>
+                                            <td>{{ dictTeams[dictKey][intLoopCount] }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <br>
+
+                            <a href="{{ url_for('viewLeagues', strTeamName = dictKey) }}">View Leagues</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form class="mtForm" action="/teamAddUser" method="POST">
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="txtUserName" type="text" placeholder="User to Add" required/>
+                </div>
+                
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="txtTeamName" type="text" placeholder="Team Name" required/>
+                </div>
+
+                <input type="submit" value="Submit"/>
+            </form>
+            
+            <form class="mtForm" action="/teamDropUser" method="POST">
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="txtUserName" type="text" placeholder="User to Remove" required/>
+                </div>
+                
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="txtTeamName" type="text" placeholder="Team To Leave" required/>
+                </div>
+
+                <input type="submit" value="Submit"/>
+            </form>
+            
+            <form class="mtForm" action="/leagueAddTeam" method="POST">
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="txtLeagueName" type="text" placeholder="League to Join" required/>
+                </div>
+                
+                <div class="col-sm-8 col-xs-12 formSpacing">
+                    <input name="txtTeamName" type="text" placeholder="Team to Add" required/>
+                </div>
+
+                <input type="submit" value="Submit"/>
+            </form>
+            {% endblock %}
+        </div>
+        
+        <script>
+            function openTab(event, tabName) {
+                var intCount, tabContent, tabTitle;
+                
+                tabContent = document.getElementsByClassName("tabContent");
+                tabTitle = document.getElementsByClassName("tabTitle");
+                
+                for (intCount = 0; intCount < tabContent.length; intCount++) {
+                    tabContent[intCount].style.display = "none";
+                }
+                
+                for (intCount = 0; intCount < tabTitle.length; intCount++) {
+                    tabTitle[intCount].className = tabTitle[intCount].className.replace(" active", "");
+                }
+                
+                document.getElementById(tabName).style.display = "block";
+                event.currentTarget.className += " active";
+                
+            }
+        </script>
+
+    </body>
+
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Football Bracketing NEA Project">
+        <meta name="author" content="Matthew Newhall">
+
+        <title>Football Bracketing NEA Project</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+        <!-- Main CSS -->
+        <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+        {% include 'nav.html' %}
+
+        <div class="container">
+            {% block body %}
+            {% if session['userLoggedIn'] %}
+                <h4>You're logged in already!</h4>
+                <a href="{{ url_for('home') }}">Please click here to go to your account.</a>
+            {% else %}
+
+                <br>
+                
+                {% if intFormat == 0 %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Names</th>
+                                {% for strName in lstTeams %}
+                                    <th>{{ strName }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for intCount in range(0, lstSend|length, lstTeams|length) %}
+                                <tr>
+                                    <th>{{ lstTeams[(intCount/(lstTeams|length))] }}</th>
+                                    
+                                    {% for intMainCount in range(intCount, intCount+(lstTeams|length)) %}
+                                        {% if lstSend[intMainCount] = None %}
+                                            <td>Blank</td>
+                                        {% elif lstSend[intMainCount][2] == None and lstSend[intMainCount][3] == None %}
+                                            <td></td>
+                                        {% else %}
+                                            {% if lstSend[intMainCount][4] == lstSend[intMainCount][0] %}
+                                                <td>{{ lstSend[intMainCount][2] }}-{{ lstSend[intMainCount][3] }}</td>
+                                            {% elif lstSend[intMainCount][4] == lstSend[intMainCount][1] %}
+                                                <td>{{ lstSend[intMainCount][3] }}-{{ lstSend[intMainCount][2] }}</td>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% elif intFormat == 1 %}
+                    <main>
+                        {% for intLevel in range(1,intLevels+1) %}
+                            <ul class="level">
+                                <li class="spacing">&nbsp;</li>
+                                
+                                {% for lstMatch in lstMatches %}
+                                    {% if lstMatch[5] == intLevel %}
+                                        {% if lstMatch[0] == None and lstMatch[1] == None %}
+                                            <li class="match blankTeam"></li>
+                                            <li class="match matchSpacingBlank"></li>
+                                            <li class="match blankTeam"></li>
+                                            <li class="spacing">&nbsp;</li>
+                                        {% elif lstMatch[2] == None and lstMatch[3] == None %}
+                                            <li class="match matchTop">{{ lstMatch[0] }} <span>-</span></li>
+                                            <li class="match matchSpacing">&nbsp;</li>
+                                            <li class="match matchBottom">{{ lstMatch[1] }} <span>-</span></li>
+                                            <li class="spacing">&nbsp;</li>
+                                        {% elif lstMatch[0] == None %}
+                                            <li class="match matchTop"><span>-</span></li>
+                                            <li class="match matchSpacing">&nbsp;</li>
+                                            <li class="match matchBottom">{{ lstMatch[1] }} <span>-</span></li>
+                                            <li class="spacing">&nbsp;</li>
+                                        {% elif lstMatch[1] == None %}
+                                            <li class="match matchTop">{{ lstMatch[0] }} <span>-</span></li>
+                                            <li class="match matchSpacing">&nbsp;</li>
+                                            <li class="match matchBottom"><span>-</span></li>
+                                            <li class="spacing">&nbsp;</li>
+                                        {% else %}
+                                            {% if lstMatch[4] == str(Match.leftTeam.winnerTeam) %}
+                                                <li class="match matchTop winner">{{ lstMatch[0] }} <span>{{ lstMatch[2] }}</span></li>
+                                                <li class="match matchSpacing">&nbsp;</li>
+                                                <li class="match matchBottom">{{ lstMatch[1] }} <span>{{ lstMatch[3] }}</span></li>
+                                                <li class="spacing">&nbsp;</li>
+                                            {% else %}
+                                                <li class="match matchTop">{{ lstMatch[0] }} <span>{{ lstMatch[2] }}</span></li>
+                                                <li class="match matchSpacing">&nbsp;</li>
+                                                <li class="match matchBottom winner">{{ lstMatch[1] }} <span>{{ lstMatch[3] }}</span></li>
+                                                <li class="spacing">&nbsp;</li>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                
+                            </ul>
+                        {% endfor %}
+                    </main>
+                {% endif %}
+            {% endif %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

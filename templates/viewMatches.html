@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Football Bracketing NEA Project">
+        <meta name="author" content="Matthew Newhall">
+
+        <title>Football Bracketing NEA Project</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+        <!-- Main CSS -->
+        <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+        {% include 'nav.html' %}
+
+        <div class="container">
+            <br>
+
+            {% block body %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>League Name</th>
+                            <th>Team 1</th>
+                            <th>Team 2</th>
+                            <th>Add Score</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for lstMatch in lstMatches %}
+                            <tr>
+                                <td>{{ lstMatch[0] }}</td> <!-- League Name-->
+                                <td>{{ lstMatch[1] }}</td> <!-- Team 1 Name-->
+                                <td>{{ lstMatch[2] }}</td> <!-- Team 2 Name-->
+                                <td><a href="{{ url_for('reportScore', lstMatch = lstMatch) }}">View</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endblock %}
+        </div>
+        
+    </body>
+    
+</html>
